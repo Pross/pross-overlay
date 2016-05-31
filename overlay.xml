@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repositories version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name>pross</name>
+    <description>Some useful ebuilds, very latest PHP and nginx</description>
+	<homepage>https://github.com/Pross/pross-overlay/</homepage>
+	<owner>
+		<name>Simon Prosser</name>
+		<email>pross@pross.org.uk</email>
+	</owner>
+    <source type="git">https://github.com/Pross/pross-overlay.git</source>
+    <feed>https://github.com/Pross/pross-overlay/commits/master.atom</feed>
+  </repo>
+</repositories>
