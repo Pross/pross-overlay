@@ -1,0 +1,6 @@
+{
+  "name": "Pross-Overlay",
+  "tagline": "Gentoo overlay for latest PHP and Nginx",
+  "body": "##Install\r\n    layman -a pross",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
