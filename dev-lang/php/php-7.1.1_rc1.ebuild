@@ -1,62 +1,25 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
-inherit eutils autotools flag-o-matic versionator depend.apache apache-module libtool systemd
-
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
-
-function php_get_uri ()
-{
-	case "${1}" in
-                "alpha")
-			echo "https://downloads.php.net/~krakjoe/${2}"
-		;;
-		"php-pre")
-			echo "https://downloads.php.net/~krakjoe/${2}"
-		;;
-		"php")
-			echo "http://www.php.net/distributions/${2}"
-		;;
-		"olemarkus")
-			echo "https://dev.gentoo.org/~olemarkus/php/${2}"
-		;;
-		"gentoo")
-			echo "mirror://gentoo/${2}"
-		;;
-		*)
-			die "unhandled case in php_get_uri"
-		;;
-	esac
-}
-
-PHP_MV="$(get_major_version)"
-SLOT="$(get_version_component_range 1-2)"
-
-# alias, so we can handle different types of releases (finals, rcs, alphas,
-# betas, ...) w/o changing the whole ebuild
-PHP_PV="${PV/_rc/RC}"
-PHP_PV="${PHP_PV/_alpha/alpha}"
-PHP_PV="${PHP_PV/_beta/beta}"
-PHP_RELEASE="php"
-[[ ${PV} == ${PV/_alpha/} ]] || PHP_RELEASE="alpha"
-[[ ${PV} == ${PV/_beta/} ]] || PHP_RELEASE="php-pre"
-[[ ${PV} == ${PV/_rc/} ]] || PHP_RELEASE="php-pre"
-PHP_P="${PN}-${PHP_PV}"
-
-PHP_SRC_URI="$(php_get_uri "${PHP_RELEASE}" "${PHP_P}.tar.bz2")"
-
-PHP_FPM_CONF_VER="1"
-
-SRC_URI="${PHP_SRC_URI}"
+inherit flag-o-matic versionator systemd
 
 DESCRIPTION="The PHP language runtime engine"
 HOMEPAGE="http://php.net/"
-LICENSE="PHP-3"
+SRC_URI="https://downloads.php.net/~krakjoe/php-7.1.1RC1.tar.xz"
 
-S="${WORKDIR}/${PHP_P}"
+LICENSE="PHP-3.01
+	BSD
+	Zend-2.0
+	bcmath? ( LGPL-2.1+ )
+	fpm? ( BSD-2 )
+	gd? ( gd )
+	unicode? ( BSD-2 LGPL-2.1 )"
+
+SLOT="$(get_version_component_range 1-2)"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 
 # We can build the following SAPIs in the given order
 SAPIS="embed cli cgi fpm apache2 phpdbg"
@@ -66,28 +29,27 @@ IUSE="${IUSE}
 	${SAPIS/cli/+cli}
 	threads"
 
-IUSE="${IUSE} bcmath berkdb bzip2 calendar cdb cjk
-	crypt +ctype curl debug
-	enchant exif frontbase +fileinfo +filter firebird
+IUSE="${IUSE} acl bcmath berkdb bzip2 calendar cdb cjk
+	coverage crypt +ctype curl debug
+	enchant exif +fileinfo +filter firebird
 	flatfile ftp gd gdbm gmp +hash +iconv imap inifile
 	intl iodbc ipv6 +json kerberos ldap ldap-sasl libedit libressl
 	mhash mssql mysql mysqli nls
 	oci8-instant-client odbc +opcache pcntl pdo +phar +posix postgres qdbm
 	readline recode selinux +session sharedmem
 	+simplexml snmp soap sockets spell sqlite ssl
-	sysvipc systemd tidy +tokenizer truetype unicode vpx wddx
+	sysvipc systemd test tidy +tokenizer truetype unicode wddx webp
 	+xml xmlreader xmlwriter xmlrpc xpm xslt zip zlib"
-
-DEPEND="
-	>=app-eselect/eselect-php-0.9.1[apache2?,fpm?]
-	>=dev-libs/libpcre-8.32[unicode]
-	apache2? ( || ( >=www-servers/apache-2.4[apache2_modules_unixd,threads=]
-		<www-servers/apache-2.4[threads=] ) )"
 
 # The supported (that is, autodetected) versions of BDB are listed in
 # the ./configure script. Other versions *work*, but we need to stick to
 # the ones that can be detected to avoid a repeat of bug #564824.
-DEPEND="${DEPEND}
+COMMON_DEPEND="
+	>=app-eselect/eselect-php-0.9.1[apache2?,fpm?]
+	>=dev-libs/libpcre-8.32[unicode]
+	acl? ( sys-apps/acl )
+	apache2? ( || ( >=www-servers/apache-2.4[apache2_modules_unixd,threads=]
+		<www-servers/apache-2.4[threads=] ) )
 	berkdb? ( || ( 	sys-libs/db:5.3
 					sys-libs/db:5.1
 					sys-libs/db:4.8
@@ -101,6 +63,7 @@ DEPEND="${DEPEND}
 		media-libs/libpng:0=
 		sys-libs/zlib
 	) )
+	coverage? ( dev-util/lcov )
 	crypt? ( >=dev-libs/libmcrypt-2.4 )
 	curl? ( >=net-misc/curl-7.10.5 )
 	enchant? ( app-text/enchant )
@@ -127,7 +90,7 @@ DEPEND="${DEPEND}
 	odbc? ( >=dev-db/unixODBC-1.8.13 )
 	postgres? ( dev-db/postgresql:* )
 	qdbm? ( dev-db/qdbm )
-	readline? ( sys-libs/readline:0 )
+	readline? ( sys-libs/readline:0= )
 	recode? ( app-text/recode )
 	sharedmem? ( dev-libs/mm )
 	simplexml? ( >=dev-libs/libxml2-2.6.8 )
@@ -139,15 +102,15 @@ DEPEND="${DEPEND}
 		!libressl? ( dev-libs/openssl:0 )
 		libressl? ( dev-libs/libressl )
 	)
-	tidy? ( app-text/htmltidy )
+	tidy? ( || ( app-text/tidy-html5 app-text/htmltidy ) )
 	truetype? (
 		=media-libs/freetype-2*
 		!gd? (
 			virtual/jpeg:0 media-libs/libpng:0= sys-libs/zlib )
 	)
 	unicode? ( dev-libs/oniguruma )
-	vpx? ( media-libs/libvpx )
 	wddx? ( >=dev-libs/libxml2-2.6.8 )
+	webp? ( media-libs/libwebp )
 	xml? ( >=dev-libs/libxml2-2.6.8 )
 	xmlrpc? ( >=dev-libs/libxml2-2.6.8 virtual/libiconv )
 	xmlreader? ( >=dev-libs/libxml2-2.6.8 )
@@ -160,19 +123,28 @@ DEPEND="${DEPEND}
 	xslt? ( dev-libs/libxslt >=dev-libs/libxml2-2.6.8 )
 	zip? ( sys-libs/zlib )
 	zlib? ( sys-libs/zlib )
-	virtual/mta
 "
 
-php="=${CATEGORY}/${PF}"
+RDEPEND="${COMMON_DEPEND}
+	virtual/mta
+	fpm? (
+		selinux? ( sec-policy/selinux-phpfpm )
+		systemd? ( sys-apps/systemd ) )"
+
+# Bison isn't actually needed when building from a release tarball
+# However, the configure script will warn if it's absent or if you
+# have an incompatible version installed. See bug 593278.
+DEPEND="${COMMON_DEPEND}
+	app-arch/xz-utils
+	>=sys-devel/bison-3.0.1"
 
 # Without USE=readline or libedit, the interactive "php -a" CLI will hang.
 REQUIRED_USE="
 	cli? ( ^^ ( readline libedit ) )
 	truetype? ( gd )
-	vpx? ( gd )
+	webp? ( gd )
 	cjk? ( gd )
 	exif? ( gd )
-
 	xpm? ( gd )
 	gd? ( zlib )
 	simplexml? ( xml )
@@ -184,46 +156,21 @@ REQUIRED_USE="
 	ldap-sasl? ( ldap )
 	mhash? ( hash )
 	phar? ( hash )
-
 	qdbm? ( !gdbm )
 	readline? ( !libedit )
 	recode? ( !imap !mysqli )
 	sharedmem? ( !threads )
-
 	mysql? ( || ( mysqli pdo ) )
-
 	|| ( cli cgi fpm apache2 embed phpdbg )"
 
-RDEPEND="${DEPEND}"
-
-RDEPEND="${RDEPEND}
-	fpm? (
-		selinux? ( sec-policy/selinux-phpfpm )
-		systemd? ( sys-apps/systemd ) )"
-
-DEPEND="${DEPEND}
-	sys-devel/flex
-	>=sys-devel/m4-1.4.3
-	>=sys-devel/libtool-1.5.18"
+PHP_MV="$(get_major_version)"
 
 # Allow users to install production version if they want to
-
-case "${PHP_INI_VERSION}" in
-	production|development)
-		;;
-	*)
-		PHP_INI_VERSION="development"
-		;;
-esac
-
-PHP_INI_UPSTREAM="php.ini-${PHP_INI_VERSION}"
-PHP_INI_FILE="php.ini"
-
-want_apache
-
-pkg_setup() {
-	depend.apache_pkg_setup
-}
+if [[ "${PHP_INI_VERSION}" == "production" ]]; then
+	PHP_INI_UPSTREAM="php.ini-production"
+else
+	PHP_INI_UPSTREAM="php.ini-development"
+fi
 
 php_install_ini() {
 	local phpsapi="${1}"
@@ -245,7 +192,7 @@ php_install_ini() {
 
 	dodir "${PHP_INI_DIR#${EPREFIX}}"
 	insinto "${PHP_INI_DIR#${EPREFIX}}"
-	newins "${phpinisrc}" "${PHP_INI_FILE}"
+	newins "${phpinisrc}" php.ini
 
 	elog "Installing php.ini for ${phpsapi} into ${PHP_INI_DIR#${EPREFIX}}"
 	elog
@@ -253,7 +200,7 @@ php_install_ini() {
 	dodir "${PHP_EXT_INI_DIR#${EPREFIX}}"
 	dodir "${PHP_EXT_INI_DIR_ACTIVE#${EPREFIX}}"
 
-	if use_if_iuse opcache; then
+	if use opcache; then
 		elog "Adding opcache to $PHP_EXT_INI_DIR"
 		echo "zend_extension=${PHP_DESTDIR}/$(get_libdir)/opcache.so" >> \
 			 "${D}/${PHP_EXT_INI_DIR}"/opcache.ini
@@ -281,34 +228,7 @@ php_set_ini_dir() {
 }
 
 src_prepare() {
-	# Change PHP branding
-	# Get the alpha/beta/rc version
-	sed -re	"s|^(PHP_EXTRA_VERSION=\").*(\")|\1-pl${PR/r/}-gentoo\2|g" \
-		-i configure.in || die "Unable to change PHP branding"
-
-	# Patch PHP to show Gentoo as the server platform
-	sed -e 's/PHP_UNAME=`uname -a | xargs`/PHP_UNAME=`uname -s -n -r -v | xargs`/g' \
-		-i configure.in || die "Failed to fix server platform name"
-
-	# Patch PHP to support heimdal instead of mit-krb5
-	if has_version "app-crypt/heimdal" ; then
-		sed -e 's|gssapi_krb5|gssapi|g' -i acinclude.m4 \
-			|| die "Failed to fix heimdal libname"
-		sed -e 's|PHP_ADD_LIBRARY(k5crypto, 1, $1)||g' -i acinclude.m4 \
-			|| die "Failed to fix heimdal crypt library reference"
-	fi
-
-	# Add user patches #357637
-	epatch_user
-
-	# Force rebuilding aclocal.m4
-	rm -f aclocal.m4 || die
-	eautoreconf
-
-	if [[ ${CHOST} == *-darwin* ]] ; then
-		# http://bugs.php.net/bug.php?id=48795, bug #343481
-		sed -i -e '/BUILD_CGI="\\$(CC)/s/CC/CXX/' configure || die
-	fi
+	default
 
 	# In php-7.x, the FPM pool configuration files have been split off
 	# of the main config. By default the pool config files go in
@@ -341,9 +261,11 @@ src_configure() {
 	)
 
 	our_conf+=(
+		$(use_with acl fpm-acl)
 		$(use_enable bcmath bcmath)
 		$(use_with bzip2 bz2 "${EPREFIX}/usr")
 		$(use_enable calendar calendar)
+		$(use_enable coverage gcov)
 		$(use_enable ctype ctype)
 		$(use_with curl curl "${EPREFIX}/usr")
 		$(use_enable xml dom)
@@ -424,8 +346,8 @@ src_configure() {
 		$(use_with gd png-dir "${EPREFIX}/usr")
 		$(use_with xpm xpm-dir "${EPREFIX}/usr")
 	)
-	if use vpx; then
-		our_conf+=( --with-vpx-dir="${EPREFIX}/usr" )
+	if use webp; then
+		our_conf+=( --with-webp-dir="${EPREFIX}/usr" )
 	fi
 	# enable gd last, so configure can pick up the previous settings
 	our_conf+=( $(use_with gd gd) )
@@ -526,7 +448,7 @@ src_configure() {
 		# the files that autotools creates. This was all originally
 		# based on the autotools-utils eclass.
 		BUILD_DIR="${WORKDIR}/sapis-build/${one_sapi}"
-		cp -r "${S}" "${BUILD_DIR}" || die
+		cp -a "${S}" "${BUILD_DIR}" || die
 		cd "${BUILD_DIR}" || die
 
 		local sapi_conf=(
@@ -546,7 +468,7 @@ src_configure() {
 
 				apache2)
 					if [[ "${one_sapi}" == "${sapi}" ]] ; then
-						sapi_conf+=( --with-apxs2="${EPREFIX}/usr/sbin/apxs" )
+						sapi_conf+=( --with-apxs2="${EPREFIX}/usr/bin/apxs" )
 					else
 						sapi_conf+=( --without-apxs2 )
 					fi
@@ -667,7 +589,8 @@ src_install() {
 	done
 
 	# Installing opcache module
-	if use_if_iuse opcache ; then
+	if use opcache ; then
+		into "${PHP_DESTDIR#${EPREFIX}}"
 		dolib.so "modules/opcache$(get_libname)"
 	fi
 
@@ -744,9 +667,14 @@ src_test() {
 pkg_postinst() {
 	# Output some general info to the user
 	if use apache2 ; then
-		APACHE2_MOD_DEFINE="PHP"
-		APACHE2_MOD_CONF="70_mod_php"  # Provided by app-eselect/eselect-php
-		apache-module_pkg_postinst
+		elog
+		elog "To enable PHP in apache, you will need to add \"-D PHP\" to"
+		elog "your apache2 command. OpenRC users can append that string to"
+		elog "APACHE2_OPTS in /etc/conf.d/apache2."
+		elog
+		elog "The apache module configuration file 70_mod_php.conf is"
+		elog "provided (and maintained) by eselect-php."
+		elog
 	fi
 
 	# Create the symlinks for php
@@ -773,17 +701,28 @@ pkg_postinst() {
 	# supposed to remove that dead link per bug 572436.
 	eselect php cleanup || die
 
-	elog "Make sure that PHP_TARGETS in ${EPREFIX}/etc/make.conf includes"
-	elog "php${SLOT/./-} in order to compile extensions for the ${SLOT} ABI."
-	elog
-	elog "This ebuild installed a version of php.ini based on"
-	elog "php.ini-${PHP_INI_VERSION}. You can choose which version of"
-	elog "php.ini to install by default by setting PHP_INI_VERSION"
-	elog "to either 'production' or 'development' in your make.conf."
-	elog "Both versions of php.ini can be found with the PHP docs in"
-	elog "${EPREFIX}/usr/share/doc/${PF}"
-	elog
-	elog "For more details on how version slotting works, please see"
+	if ! has "php${SLOT/./-}" ${PHP_TARGETS}; then
+	   elog "To build extensions for this version of PHP, you will need to"
+	   elog "add php${SLOT/./-} to your PHP_TARGETS USE_EXPAND variable."
+	   elog
+	fi
+
+	# Only mention PHP_INI_VERSION if the user doesn't have it set.
+	case "${PHP_INI_VERSION}" in
+		production|development)
+		;;
+	*)
+		elog "This ebuild installed a version of php.ini based on"
+		elog "${PHP_INI_UPSTREAM}. You can choose which version of"
+		elog "php.ini to install by default by setting PHP_INI_VERSION"
+		elog "to either 'production' or 'development' in your make.conf."
+		elog "Both versions of php.ini can be found with the PHP docs in"
+		elog "${EPREFIX}/usr/share/doc/${PF}"
+		elog
+		;;
+	esac
+
+	elog "For details on how version slotting works, please see"
 	elog "the wiki:"
 	elog
 	elog "  https://wiki.gentoo.org/wiki/PHP"
