@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI="5"
 
 # Require python-2 with sqlite USE flag
-PYTHON_DEPEND="2:2.6"
-PYTHON_USE_WITH="sqlite"
+PYTHON_COMPAT=( python2_7 )
+PYTHON_REQ_USE="sqlite(+)"
 
-inherit eutils python user
+inherit eutils python-single-r1 user
 
 MY_P="${P/sab/SAB}"
 
@@ -35,8 +35,7 @@ DHOMEDIR="/var/${PN}"
 
 pkg_setup() {
 	# Control PYTHON_USE_WITH
-	python_set_active_version 2
-	python_pkg_setup
+	python-single-r1_pkg_setup
 
 	# Create sabnzbd group
 	enewgroup ${PN}
@@ -64,7 +63,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	python_mod_optimize /usr/share/${PN}
 
 	elog "SABnzbd has been installed with default directories in /var/${PN}"
 	elog
@@ -80,6 +78,3 @@ pkg_postinst() {
 	elog
 }
 
-pkg_postrm() {
-	python_mod_cleanup /usr/share/${PN}
-}
