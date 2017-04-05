@@ -11,7 +11,7 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86
 function php_get_uri ()
 {
 	case "${1}" in
-                "alpha")
+		"alpha")
 			echo "https://downloads.php.net/~krakjoe/${2}"
 		;;
 		"php-pre")
