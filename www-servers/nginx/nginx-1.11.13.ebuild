@@ -310,13 +310,6 @@ pkg_setup() {
 		ewarn "all nginx http modules."
 	fi
 
-	if use nginx_modules_http_ajp; then
-		eerror "The AJP module currently doesn't build for nginx >1.8."
-		eerror "It will be reintroduced with the 1.9 series when proven stable."
-		eerror "Either disable it or stick with nginx 1.7.x."
-		die "AJP module not supported"
-	fi
-
 	if use nginx_modules_http_mogilefs && use threads; then
 		eerror "mogilefs won't compile with threads support."
 		eerror "Please disable either flag and try again."
