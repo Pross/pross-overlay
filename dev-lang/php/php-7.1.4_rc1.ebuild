@@ -68,7 +68,7 @@ IUSE="${IUSE}
 
 IUSE="${IUSE} bcmath berkdb bzip2 calendar cdb cjk
 	crypt +ctype curl debug
-	enchant exif frontbase +fileinfo +filter firebird
+	enchant exif +fileinfo +filter firebird
 	flatfile ftp gd gdbm gmp +hash +iconv imap inifile
 	intl iodbc ipv6 +json kerberos ldap ldap-sasl libedit libressl
 	mhash mssql mysql mysqli nls
