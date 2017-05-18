@@ -3,11 +3,14 @@
 
 EAPI=6
 
-inherit flag-o-matic versionator systemd
+inherit flag-o-matic versionator systemd eutils git-r3
+
+EGIT_REPO_URI="https://github.com/php/php-src.git"
+EGIT_BRANCH="master"
 
 DESCRIPTION="The PHP language runtime engine"
 HOMEPAGE="http://php.net/"
-SRC_URI="http://php.net/distributions/${P}.tar.xz"
+#SRC_URI="https://github.com/php/php-src/archive/master.tar.gz"
 
 LICENSE="PHP-3.01
 	BSD
@@ -222,7 +225,8 @@ php_set_ini_dir() {
 
 src_prepare() {
 	default
-
+	git submodule init
+	git submodule update
 	# In php-7.x, the FPM pool configuration files have been split off
 	# of the main config. By default the pool config files go in
 	# e.g. /etc/php-fpm.d, which isn't slotted. So here we move the
@@ -232,6 +236,7 @@ src_prepare() {
 	sed -i "s~^include=.*$~include=${PHP_INI_DIR}/fpm.d/*.conf~" \
 		sapi/fpm/php-fpm.conf.in \
 		|| die 'failed to move the include directory in php-fpm.conf'
+	./buildconf
 }
 
 src_configure() {
