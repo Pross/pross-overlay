@@ -3,7 +3,6 @@
 # See https://github.com/mrueg/repoman-travis
 #
 language: python
-dist: trusty
 python:
     - pypy
 env:
