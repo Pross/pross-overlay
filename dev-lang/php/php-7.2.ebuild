@@ -65,7 +65,6 @@ COMMON_DEPEND="
 		media-libs/libpng:0=
 		sys-libs/zlib
 	) )
-	crypt? ( >=dev-libs/libmcrypt-2.4 )
 	curl? ( >=net-misc/curl-7.10.5 )
 	enchant? ( app-text/enchant )
 	exif? ( !gd? (
@@ -235,6 +234,7 @@ src_prepare() {
 	sed -i "s~^include=.*$~include=${PHP_INI_DIR}/fpm.d/*.conf~" \
 		sapi/fpm/php-fpm.conf.in \
 		|| die 'failed to move the include directory in php-fpm.conf'
+	./genfiles
 	./buildconf
 }
 
@@ -283,7 +283,6 @@ src_configure() {
 		$(use_enable xml libxml)
 		$(use_with xml libxml-dir "${EPREFIX}/usr")
 		$(use_enable unicode mbstring)
-		$(use_with crypt mcrypt "${EPREFIX}/usr")
 		$(use_with unicode onig "${EPREFIX}/usr")
 		$(use_with ssl openssl "${EPREFIX}/usr")
 		$(use_with ssl openssl-dir "${EPREFIX}/usr")
