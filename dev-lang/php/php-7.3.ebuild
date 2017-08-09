@@ -6,7 +6,7 @@ EAPI=6
 inherit flag-o-matic versionator systemd eutils git-r3
 
 EGIT_REPO_URI="https://github.com/php/php-src.git"
-EGIT_BRANCH="PHP-7.2"
+EGIT_BRANCH="master"
 
 DESCRIPTION="The PHP language runtime engine"
 HOMEPAGE="http://php.net/"
