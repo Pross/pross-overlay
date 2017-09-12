@@ -121,7 +121,7 @@ COMMON_DEPEND="
 		media-libs/libpng:0= sys-libs/zlib
 	)
 	xslt? ( dev-libs/libxslt >=dev-libs/libxml2-2.6.8 )
-	zip? ( sys-libs/zlib )
+	zip? ( sys-libs/zlib dev-libs/libzip )
 	zlib? ( sys-libs/zlib )
 "
 
