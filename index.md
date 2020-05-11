@@ -1,2 +1,3 @@
-##Install
-    layman -a pross
+## Install
+
+`layman -a pross`
