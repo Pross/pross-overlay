@@ -2,8 +2,8 @@
 <repositories version="1.0">
   <repo quality="experimental" status="unofficial">
     <name>pross</name>
-    <description>Some useful ebuilds, very latest PHP and nginx</description>
-	<homepage>https://github.com/Pross/pross-overlay/</homepage>
+    <description>Gentoo and Funtoo overlay for latest CK sources</description>
+	<homepage>http://pross.github.io/pross-overlay/</homepage>
 	<owner>
 		<name>Simon Prosser</name>
 		<email>pross@pross.org.uk</email>
