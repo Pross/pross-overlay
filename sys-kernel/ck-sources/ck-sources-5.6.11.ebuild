@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 HOMEPAGE="https://dev.gentoo.org/~mpagano/genpatches/
 	http://kernel.kolivas.org/"
 
-DESCRIPTION="Gentoo's genpatches for Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS process scheduler and patchset"
+DESCRIPTION="Gentoo's genpatches for Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS scheduler and patchset"
 
 K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
 
@@ -30,4 +30,3 @@ UNIPATCH_LIST="${DISTDIR}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz
 	"${FILESDIR}"/funtoo.patch"
 
 UNIPATCH_STRICTORDER="yes"
-
