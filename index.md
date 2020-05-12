@@ -8,5 +8,8 @@ Ebuild includes latest patchset from [Con Kolivas](http://www.users.on.net/~ckol
 
 ## Install
 
-`layman -a pross`
+`eselect repository enable pross`
 
+-or-
+
+`layman -a pross`
