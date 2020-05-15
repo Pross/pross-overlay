@@ -27,7 +27,7 @@ CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXT
 SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI} ${CK_URI}"
 
 UNIPATCH_LIST="${DISTDIR}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz
-        "${FILESDIR}"/1012_linux-5.6.13.patch
+	"${FILESDIR}"/1012_linux-5.6.13.patch
 	"${FILESDIR}"/${CK_EXTRAVERSION}-revert-version.patch
 	"${FILESDIR}"/funtoo.patch"
 
