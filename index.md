@@ -13,3 +13,5 @@ Ebuild includes latest patchset from [Con Kolivas](http://www.users.on.net/~ckol
 -or-
 
 `layman -a pross`
+
+Asus Nitro 7 users click [here](config-asus-nitro-7) for my fully working kernel config.
