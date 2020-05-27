@@ -11,7 +11,7 @@ HOMEPAGE="https://dev.gentoo.org/~mpagano/genpatches/
 IUSE="experimental"
 
 K_WANT_GENPATCHES="base extras experimental"
-K_GENPATCHES_VER="16"
+K_GENPATCHES_VER="18"
 K_SECURITY_UNSUPPORTED="1"
 CK_EXTRAVERSION="ck2"
 
@@ -25,10 +25,12 @@ K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
 
 CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXTRAVERSION}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz"
 
-SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI} ${CK_URI}"
+PATCH_URI="https://cdn.kernel.org/pub/linux/kernel/v5.x/incr/patch-5.6.14-15.xz"
 
-UNIPATCH_LIST="${DISTDIR}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz
-	"${FILESDIR}"/1012_linux-5.6.13.patch
+SRC_URI="${KERNEL_URI} ${PATCH_URI} ${GENPATCHES_URI} ${ARCH_URI} ${CK_URI}"
+
+UNIPATCH_LIST="${DISTDIR}/patch-5.6.14-15.xz
+	"${DISTDIR}"/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz
 	"${FILESDIR}"/${CK_EXTRAVERSION}-revert-version.patch
 	"${FILESDIR}"/funtoo.patch"
 
