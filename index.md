@@ -3,7 +3,7 @@ This overlay adds an ebuild for ck-sources that I will try to make sure is up to
 
 Ebuild includes latest patchset from [Con Kolivas](http://www.users.on.net/~ckolivas/kernel/) which includes MuQSS process scheduler.
 
-
+Includes CPU optimisations patch by [greysky2](https://github.com/graysky2/kernel_gcc_patch)
 
 
 ## Install
