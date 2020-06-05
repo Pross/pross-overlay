@@ -25,9 +25,10 @@ SRC_URI="${KERNEL_URI} ${ARCH_URI} ${CK_URI}"
 
 UNIPATCH_LIST="
 	${FILESDIR}/0001-init-Kconfig-enable-O3-for-all-arches.patch
+	${FILESDIR}/4000-docker-config.patch
 	${DISTDIR}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz
+	${FILESDIR}/${CK_EXTRAVERSION}-revert-version.patch
 	${FILESDIR}/5012_enable-cpu-optimizations-for-gcc91.patch
-	${FILESDIR}/version.patch
 	"
 
 UNIPATCH_STRICTORDER="yes"
