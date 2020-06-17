@@ -209,7 +209,7 @@ PATCHES=(
 	"${FILESDIR}/chromium-83-gcc-10.patch"
 	"${FILESDIR}/chromium-83-icu67.patch"
 	"${FILESDIR}/chromium-81-re2-0.2020.05.01.patch"
-
+    "${FILESDIR}/fix-intel-vaapi-wayland.patch"
 	"${FILESDIR}/chromium-system-fix-shim-headers-r0.patch"
 )
 
