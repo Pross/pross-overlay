@@ -2,7 +2,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python3+ )
+PYTHON_COMPAT=( python{2_7,3_{5,6,7}} )
 
 inherit autotools python-any-r1
 
