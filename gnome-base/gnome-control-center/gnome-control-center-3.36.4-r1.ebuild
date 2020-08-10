@@ -12,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="2"
 KEYWORDS="*"
 
-IUSE="elogind +ibus +logo libinput systemd v4l wayland"
+IUSE="elogind +ibus libinput systemd v4l wayland"
 REQUIRED_USE="
 	?? ( elogind systemd )
 	wayland? ( || ( elogind systemd ) )
@@ -65,7 +65,7 @@ COMMON_DEPEND="
 	ibus? ( >=app-i18n/ibus-1.5.2 )
 	app-crypt/mit-krb5
 	>=gnome-extra/nm-applet-1.2.0
-	>=net-misc/networkmanager-1.2.0:=[modemmanager]
+	>=net-misc/networkmanager-1.26.0:=[modemmanager]
 	>=net-misc/modemmanager-0.7.990
 	v4l? ( >=media-video/cheese-3.5.91 )
 	>=dev-libs/libwacom-0.7
@@ -113,8 +113,8 @@ DEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
+	"${FILESDIR}/3.36.2-temporarily-revert-alt-char-key.patch"
 	"${FILESDIR}/01-funtoo-logo.patch"
-
 )
 
 src_configure() {
