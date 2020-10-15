@@ -1,9 +1,9 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-inherit eutils xdg-utils 
+inherit desktop eutils pax-utils xdg
 
 DESCRIPTION="Watch torrent movies instantly"
 HOMEPAGE="https://popcorntime.app/"
@@ -25,19 +25,30 @@ RDEPEND="dev-libs/nss
 S="${WORKDIR}"
 
 src_install() {
-	insinto /opt/${PN}
-    	doins -r .
-	fperms +x /opt/${PN}/Popcorn-Time
-	dosym /$(get_libdir)/libudev.so.1 /opt/${PN}/libudev.so.0
-	dosym /opt/${PN}/Popcorn-Time /usr/bin/${PN}
-
-	domenu "${FILESDIR}"/${PN}.desktop
 
 	doicon -s 256 "${FILESDIR}"/${PN}.png
+	domenu "${FILESDIR}"/${PN}.desktop
+	
+	
+	insinto /opt/popcorn
+	doins -r .
+
+	fperms +x /opt/popcorn/Popcorn-Time
+
+	dosym ../../opt/popcorn/Popcorn-Time usr/bin/popcorntime-bin
+	pax-mark -m "${ED%/}"/opt/popcorn/Popcorn-Time
+
 }
 
 pkg_postinst() {
-	xdg_desktop_database_update
+	xdg_mimeinfo_database_update
 	xdg_icon_cache_update
+	xdg_desktop_database_update
+}
+
+pkg_postrm() {
+	xdg_mimeinfo_database_update
+	xdg_icon_cache_update
+	xdg_desktop_database_update
 }
 
