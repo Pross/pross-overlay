@@ -41,6 +41,28 @@ UNIPATCH_LIST="
 
 UNIPATCH_STRICTORDER="yes"
 
+src_configure() {
+	einfo "Copying Arch config and patches"
+	cp ${FILESDIR}/config ${S}/arch-config
+	# disable CONFIG_DEBUG_INFO=y at build time otherwise memory usage blows up
+	# and can easily overwhelm a system with 32 GB of memory using a tmpfs build
+	# partition ... this was introduced by FS#66260, see:
+	# https://git.archlinux.org/svntogit/packages.git/commit/trunk?h=packages/linux&id=663b08666b269eeeeaafbafaee07fd03389ac8d7
+	sed -i -e 's/CONFIG_DEBUG_INFO=y/# CONFIG_DEBUG_INFO is not set/' \
+	-i -e '/CONFIG_DEBUG_INFO_DWARF4=y/d' \
+	-i -e '/CONFIG_DEBUG_INFO_BTF=y/d' ${S}/arch-config
 
+	# https://bbs.archlinux.org/viewtopic.php?pid=1824594#p1824594
+	sed -i -e 's/# CONFIG_PSI_DEFAULT_DISABLED is not set/CONFIG_PSI_DEFAULT_DISABLED=y/' ${S}/arch-config
 
+	# https://bbs.archlinux.org/viewtopic.php?pid=1863567#p1863567
+	sed -i -e '/CONFIG_LATENCYTOP=/ s,y,n,' \
+	-i -e '/CONFIG_SCHED_DEBUG=/ s,y,n,' ${S}/arch-config
 
+	# FS#66613
+	# https://bugzilla.kernel.org/show_bug.cgi?id=207173#c6
+	sed -i -e 's/CONFIG_KVM_WERROR=y/# CONFIG_KVM_WERROR is not set/' ${S}/arch-config
+	
+	einfo "Default Arch config saved as arch-config in kernel DIR"
+	einfo "See https://aur.archlinux.org/packages/linux-ck for latest info"
+}
