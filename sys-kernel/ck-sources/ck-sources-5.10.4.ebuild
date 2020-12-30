@@ -27,7 +27,6 @@ SRC_URI="${KERNEL_URI}
 
 UNIPATCH_LIST="
 	${FILESDIR}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-	${FILESDIR}/0002-Bluetooth-Fix-LL-PRivacy-BLE-device-fails-to-connect.patch
 	${FILESDIR}/0003-Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch
 	${FILESDIR}/0004-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
 	${FILESDIR}/enable_additional_cpu_optimizations_for_gcc_v9.1+_kernel_v5.8+.patch
@@ -40,7 +39,7 @@ UNIPATCH_LIST="
 UNIPATCH_STRICTORDER="yes"
 
 src_configure() {
-	einfo "Copying Arch config and patches"
+	einfo "Copying Arch config and applying patches to arch-config file."
 	cp ${FILESDIR}/config ${S}/arch-config
 	# disable CONFIG_DEBUG_INFO=y at build time otherwise memory usage blows up
 	# and can easily overwhelm a system with 32 GB of memory using a tmpfs build
@@ -60,7 +59,14 @@ src_configure() {
 	# FS#66613
 	# https://bugzilla.kernel.org/show_bug.cgi?id=207173#c6
 	sed -i -e 's/CONFIG_KVM_WERROR=y/# CONFIG_KVM_WERROR is not set/' ${S}/arch-config
-	
-	einfo "Default Arch config saved as arch-config in kernel DIR"
-	einfo "See https://aur.archlinux.org/packages/linux-ck for latest info"
+}
+
+pkg_postinst() {
+	ewarn "Default Arch config saved as arch-config in kernel DIR"
+	echo
+	ewarn "This kernel includes the CK patchset plus additional patches from Arch"
+	ewarn "See https://aur.archlinux.org/packages/linux-ck for latest info"
+	echo
+	ewarn "This package is not supported by Gentoo or Funtoo"
+	ewarn "For ebuild issues please post issue here: https://github.com/Pross/pross-overlay/issues"
 }
