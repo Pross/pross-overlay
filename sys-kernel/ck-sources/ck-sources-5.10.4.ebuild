@@ -19,10 +19,11 @@ DESCRIPTION="Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS scheduler and patchse
 
 K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
 
-#CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXTRAVERSION}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz"
+CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXTRAVERSION}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz"
 
 SRC_URI="${KERNEL_URI}
 	${ARCH_URI}
+	${CK_URI}
 	"
 
 UNIPATCH_LIST="
@@ -32,7 +33,7 @@ UNIPATCH_LIST="
 	${FILESDIR}/enable_additional_cpu_optimizations_for_gcc_v9.1+_kernel_v5.8+.patch
 	${FILESDIR}/0006-init-Kconfig-enable-O3-for-all-arches.patch
         ${FILESDIR}/4567_distro-Gentoo-Kconfig.patch
-	${FILESDIR}/5.10-ck.patch
+        ${DISTDIR}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz
 	${FILESDIR}/${CK_EXTRAVERSION}-revert-version.patch
 	"
 
