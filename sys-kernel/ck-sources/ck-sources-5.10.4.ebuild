@@ -19,6 +19,8 @@ DESCRIPTION="Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS scheduler and patchse
 
 K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
 
+K_FILESDIR="${FILESDIR}/${K_BRANCH_ID}"
+
 CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXTRAVERSION}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz"
 
 SRC_URI="${KERNEL_URI}
@@ -27,9 +29,15 @@ SRC_URI="${KERNEL_URI}
 	"
 
 UNIPATCH_LIST="
-	${FILESDIR}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-	${FILESDIR}/0003-Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch
-	${FILESDIR}/0004-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
+
+	${K_FILESDIR}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+	${K_FILESDIR}/0002-Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch
+	${K_FILESDIR}/0003-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
+	${K_FILESDIR}/0004-drm-amd-display-Add-get_dig_frontend-implementation-.patch
+	${K_FILESDIR}/0005-btrfs-Fix-500-2000-performance-regression-w-5.10.patch
+	${K_FILESDIR}/0006-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
+
+
 	${FILESDIR}/enable_additional_cpu_optimizations_for_gcc_v9.1+_kernel_v5.8+.patch
 	${FILESDIR}/0006-init-Kconfig-enable-O3-for-all-arches.patch
         ${FILESDIR}/4567_distro-Gentoo-Kconfig.patch
@@ -41,7 +49,7 @@ UNIPATCH_STRICTORDER="yes"
 
 src_configure() {
 	einfo "Copying Arch config and applying patches to arch-config file."
-	cp ${FILESDIR}/config ${S}/arch-config
+	cp ${K_FILESDIR}/config ${S}/arch-config
 	# disable CONFIG_DEBUG_INFO=y at build time otherwise memory usage blows up
 	# and can easily overwhelm a system with 32 GB of memory using a tmpfs build
 	# partition ... this was introduced by FS#66260, see:
