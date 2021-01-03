@@ -15,6 +15,8 @@ inherit kernel-2
 detect_version
 detect_arch
 
+RDEPEND="virtual/linux-sources"
+
 DESCRIPTION="Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS scheduler and patchset"
 
 K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
@@ -71,6 +73,7 @@ src_configure() {
 }
 
 pkg_postinst() {
+	kernel-2_pkg_postinst
 	ewarn "Default Arch config saved as arch-config in kernel DIR"
 	echo
 	ewarn "This kernel includes the CK patchset plus additional patches from Arch"
@@ -78,4 +81,8 @@ pkg_postinst() {
 	echo
 	ewarn "This package is not supported by Gentoo or Funtoo"
 	ewarn "For ebuild issues please post issue here: https://github.com/Pross/pross-overlay/issues"
+}
+
+pkg_postrm() {
+	kernel-2_pkg_postrm
 }
