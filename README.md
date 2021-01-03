@@ -7,6 +7,9 @@ Ebuild includes latest patchset from [Con Kolivas](http://www.users.on.net/~ckol
 
 Includes CPU optimisations patch by [greysky2](https://github.com/graysky2/kernel_gcc_patch).
 
+Also includes all patches in Arch [linux-ck](https://aur.archlinux.org/packages/linux-ck/) plus its optional config file as arch-config in kernel DIR. 
+
+
 ## Install
 
 `eselect repository enable pross`
