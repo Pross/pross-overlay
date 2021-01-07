@@ -21,7 +21,7 @@ DESCRIPTION="Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS scheduler and patchse
 
 K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
 
-K_FILESDIR="${FILESDIR}/${K_BRANCH_ID}"
+K_FILESDIR="${FILESDIR}/${OKV}"
 
 CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXTRAVERSION}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz"
 

@@ -21,7 +21,7 @@ DESCRIPTION="Linux ${K_BRANCH_ID}, with Con Kolivas' MuQSS scheduler and patchse
 
 K_BRANCH_ID="${KV_MAJOR}.${KV_MINOR}"
 
-K_FILESDIR="${FILESDIR}/${K_BRANCH_ID}"
+K_FILESDIR="${FILESDIR}/${OKV}"
 
 CK_URI="http://ck.kolivas.org/patches/5.0/${K_BRANCH_ID}/${K_BRANCH_ID}-${CK_EXTRAVERSION}/patch-${K_BRANCH_ID}-${CK_EXTRAVERSION}.xz"
 
@@ -35,9 +35,10 @@ UNIPATCH_LIST="
 	${K_FILESDIR}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
 	${K_FILESDIR}/0002-Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch
 	${K_FILESDIR}/0003-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
-	${K_FILESDIR}/0004-drm-amd-display-Add-get_dig_frontend-implementation-.patch
-	${K_FILESDIR}/0005-btrfs-Fix-500-2000-performance-regression-w-5.10.patch
-	${K_FILESDIR}/0006-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
+	${K_FILESDIR}/0004-btrfs-Fix-500-2000-performance-regression-w-5.10.patch
+	${K_FILESDIR}/0005-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
+	${K_FILESDIR}/0006-ALSA-hda-hdmi-fix-locking-in-silent_stream_disable.patch
+	${K_FILESDIR}/0007-Revert-drm-amd-display-Fix-memory-leaks-in-S3-resume.patch
 
 
 	${FILESDIR}/enable_additional_cpu_optimizations_for_gcc_v9.1+_kernel_v5.8+.patch
