@@ -33,14 +33,11 @@ SRC_URI="${KERNEL_URI}
 	"
 
 UNIPATCH_LIST="
-
-
-
-	${K_FILESDIR}/0003-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
-	${K_FILESDIR}/0004-btrfs-Fix-500-2000-performance-regression-w-5.10.patch
-	${K_FILESDIR}/0005-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
-
-
+	${K_FILESDIR}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+	${K_FILESDIR}/0002-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
+	${K_FILESDIR}/0003-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
+	${K_FILESDIR}/0004-btrfs-fix-deadlock-when-cloning-inline-extent-and-lo.patch
+	${K_FILESDIR}/0005-btrfs-shrink-delalloc-pages-instead-of-full-inodes.patch
 
 
 	${FILESDIR}/enable_additional_cpu_optimizations_for_gcc_v9.1+_kernel_v5.8+.patch
