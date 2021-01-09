@@ -9,6 +9,8 @@ HOMEPAGE="http://kernel.kolivas.org/"
 
 K_SECURITY_UNSUPPORTED="1"
 
+K_PREPATCHED="1"
+
 CK_EXTRAVERSION="ck1"
 
 inherit kernel-2
@@ -32,13 +34,13 @@ SRC_URI="${KERNEL_URI}
 
 UNIPATCH_LIST="
 
-	${K_FILESDIR}/0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-	${K_FILESDIR}/0002-Bluetooth-Fix-attempting-to-set-RPA-timeout-when-uns.patch
+
+
 	${K_FILESDIR}/0003-HID-quirks-Add-Apple-Magic-Trackpad-2-to-hid_have_sp.patch
-	${K_FILESDIR}/0004-drm-amd-display-Add-get_dig_frontend-implementation-.patch
-	${K_FILESDIR}/0005-btrfs-Fix-500-2000-performance-regression-w-5.10.patch
-	${K_FILESDIR}/0006-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
-	${K_FILESDIR}/0007-ALSA-hda-hdmi-fix-locking-in-silent_stream_disable.patch
+	${K_FILESDIR}/0004-btrfs-Fix-500-2000-performance-regression-w-5.10.patch
+	${K_FILESDIR}/0005-iwlwifi-Fix-regression-from-UDP-segmentation-support.patch
+
+
 
 
 	${FILESDIR}/enable_additional_cpu_optimizations_for_gcc_v9.1+_kernel_v5.8+.patch
@@ -76,10 +78,10 @@ src_configure() {
 pkg_postinst() {
 	kernel-2_pkg_postinst
 	ewarn "Default Arch config saved as arch-config in kernel DIR"
-	echo
+	ewarn
 	ewarn "This kernel includes the CK patchset plus additional patches from Arch"
 	ewarn "See https://aur.archlinux.org/packages/linux-ck for latest info"
-	echo
+	ewarn
 	ewarn "This package is not supported by Gentoo or Funtoo"
 	ewarn "For ebuild issues please post issue here: https://github.com/Pross/pross-overlay/issues"
 }
