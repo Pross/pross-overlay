@@ -1,0 +1,51 @@
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+inherit desktop eutils pax-utils xdg unpacker gnome2-utils
+
+DESCRIPTION="Hypnotix is an IPTV streaming application with support for live TV, movies and series."
+HOMEPAGE="https://github.com/linuxmint/hypnotix/"
+
+GITHUB_REPO="linuxmint"
+GITHUB_USER="hypnotix"
+GITHUB_TAG="$P"
+SRC_URI="https://github.com/linuxmint/hypnotix/releases/download/1.1/hypnotix_1.1_all.deb -> hypnotix-bin-1.1.tar.gz"
+RESTRICT="bindist mirror"
+
+LICENSE="GPL-3+"
+SLOT="0"
+KEYWORDS="~amd64 ~x86"
+S="${WORKDIR}"
+RDEPEND="
+	>=dev-libs/glib-2.44
+	dev-python/imdbpy
+	>=media-video/mpv-0.27[libmpv]
+	>=x11-libs/gtk+-3.22.23:3
+"
+
+src_prepare() {
+	default
+	}
+
+src_install() {
+	fperms +x usr/bin/hypnotix
+	insinto /
+	doins -r .
+	fperms +x /usr/bin/hypnotix
+	fperms +x /usr/lib/hypnotix/hypnotix.py
+}
+
+pkg_postinst() {
+	gnome2_schemas_update
+	xdg_mimeinfo_database_update
+	xdg_icon_cache_update
+	xdg_desktop_database_update
+}
+
+pkg_postrm() {
+	gnome2_schemas_update
+	xdg_mimeinfo_database_update
+	xdg_icon_cache_update
+	xdg_desktop_database_update
+}
