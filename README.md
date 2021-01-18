@@ -1,4 +1,4 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XWNYBX7D44EBW&source=url)
+![Latest CK Kernel](https://repology.org/badge/version-for-repo/funtoo_1.4/ck-sources.svg)
 
 ## Up to date ck-sources
 This overlay adds an ebuild for ck-sources that I will try to make sure is up to date with latest kernels.
