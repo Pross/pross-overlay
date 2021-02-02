@@ -6,7 +6,7 @@ PATCH_VER="6"
 
 inherit toolchain
 
-KEYWORDS=""
+KEYWORDS="~amd64"
 
 RDEPEND=""
 BDEPEND="${CATEGORY}/binutils"
