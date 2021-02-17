@@ -22,7 +22,7 @@ K_BRANCH_ID="5.10"
 
 SRC_URI="
 	https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.10.tar.xz
-	https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/patch-5.10.10.xz
+	https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/patch-5.10.16.xz
 	http://ck.kolivas.org/patches/5.0/5.10/5.10-ck1/patch-5.10-ck1.xz
 	"
 
